@@ -90,7 +90,11 @@ func readLine(scanner *bufio.Scanner, args ...interface{}) {
 	fmt.Sscan(scanner.Text(), args...)
 }
 
-func readPellets(scanner *bufio.Scanner, width, height, visiblePelletCount int) Pellets {
+func readPellets(scanner *bufio.Scanner, width, height int) Pellets {
+	// visiblePelletCount: all pellets in sigh
+	var visiblePelletCount int
+	readLine(scanner, &visiblePelletCount)
+
 	pellets := NewPellets(width, height)
 	for i := 0; i < visiblePelletCount; i++ {
 		// value: amount of points this pellet is worth
@@ -145,16 +149,7 @@ func main() {
 
 	for {
 		teams := readTeams(scanner)
-		// visiblePelletCount: all pellets in sigh
-		var visiblePelletCount int
-		readLine(scanner, &visiblePelletCount)
-
-		pellets := readPellets(scanner, width, height, visiblePelletCount)
-
-		// _ = PacMap
-		// _ = pellets
-		// fmt.Printf("MOVE 0 10 15\n") // MOVE <pacId> <x> <y>
-
+		pellets := readPellets(scanner, width, height)
 		orderToMove(teams, pellets)
 	}
 }
